@@ -9,6 +9,8 @@ import cc.mallet.types.Sequence;
  * Provides factory methods to create inference engine for training a transducer.
  */
 public abstract class SumLatticeFactory implements Serializable {
+	
+	private static final long serialVersionUID = 3494246514066263640L;
 
 	public SumLattice newSumLattice (Transducer trans, Sequence input)
 	{
