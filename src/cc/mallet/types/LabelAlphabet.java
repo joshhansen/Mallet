@@ -24,6 +24,8 @@ import cc.mallet.types.Alphabet;
  */
 public class LabelAlphabet extends Alphabet implements Serializable
 {
+	
+	private static final long serialVersionUID = 6767760702605293255L;
 	ArrayList labels;
 		
 	public LabelAlphabet ()
