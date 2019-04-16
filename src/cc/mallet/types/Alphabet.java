@@ -30,8 +30,11 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.nio.charset.Charset;
+import java.rmi.dgc.VMID;
 
 import com.carrotsearch.hppc.ObjectIntHashMap;
+
+import cc.mallet.util.VMIDtoUUID;
 
 /**
  *  A mapping between integers and objects where the mapping in each
@@ -349,7 +352,12 @@ public class Alphabet implements Serializable
             growthStopped = in.readBoolean();
             entryClass = (Class) in.readObject();
             if (version > 0) { // instanced id added in version 1S
-                instanceId = (UUID) in.readObject();
+            	if(version == 1) {
+            		VMID vmid = (VMID) in.readObject();
+            		instanceId = VMIDtoUUID.vmidToUUID(vmid);
+            	} else {
+            		instanceId = (UUID) in.readObject();
+            	}
             }
         } finally {
             lock.writeLock().unlock();

@@ -18,12 +18,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.UUID;
 import java.io.*;
+import java.rmi.dgc.VMID;
 
 import cc.mallet.types.Alphabet;
 import cc.mallet.types.AlphabetCarrying;
 import cc.mallet.types.Instance;
 import cc.mallet.types.SingleInstanceIterator;
 import cc.mallet.util.MalletLogger;
+import cc.mallet.util.VMIDtoUUID;
 /**
     The abstract superclass of all Pipes, which transform one data type to another.
     Pipes are most often used for feature extraction.
@@ -321,7 +323,12 @@ public abstract class Pipe implements Serializable, AlphabetCarrying
         dataAlphabetResolved = in.readBoolean();
         targetAlphabetResolved = in.readBoolean();
         targetProcessing = in.readBoolean();
-        instanceId = (UUID) in.readObject();
+        if(version == 0) {
+        	VMID oldInstanceID = (VMID) in.readObject();
+        	instanceId = VMIDtoUUID.vmidToUUID(oldInstanceID);
+        } else {
+        	instanceId = (UUID) in.readObject();
+        }
     }
 
     private transient static ConcurrentMap<UUID, Object> deserializedEntries = new ConcurrentHashMap<UUID, Object>();

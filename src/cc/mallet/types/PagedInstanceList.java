@@ -16,6 +16,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.rmi.dgc.VMID;
 import java.util.BitSet;
 import java.util.Map;
 import java.util.UUID;
@@ -30,6 +31,7 @@ import cc.mallet.types.InstanceList;
 import cc.mallet.types.Label;
 import cc.mallet.types.LabelAlphabet;
 import cc.mallet.types.MatrixOps;
+import cc.mallet.util.VMIDtoUUID;
 
 /**
       An InstanceList which avoids OutOfMemoryErrors by saving Instances
@@ -568,7 +570,13 @@ public class PagedInstanceList extends InstanceList
     }
 
     private void readObject (ObjectInputStream in) throws IOException, ClassNotFoundException {
-        this.id = (UUID) in.readObject ();
+    	int version = in.readInt();
+    	if(version < 2) {
+    		VMID vmid = (VMID) in.readObject();
+    		this.id = VMIDtoUUID.vmidToUUID(vmid);
+    	} else {
+    		this.id = (UUID) in.readObject ();
+    	}
         this.pipe = (Pipe) in.readObject();
         // memory attributes
         this.instancesPerPage = in.readInt ();
