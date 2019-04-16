@@ -315,7 +315,7 @@ public class Alphabet implements Serializable
     // Serialization
 
     private static final long serialVersionUID = 1;
-    private static final int CURRENT_SERIAL_VERSION = 1;
+    private static final int CURRENT_SERIAL_VERSION = 2;
 
     private void writeObject (ObjectOutputStream out) throws IOException {
         lock.readLock().lock();

@@ -550,7 +550,7 @@ public class PagedInstanceList extends InstanceList
     // Serialization of PagedInstanceList
 
     private static final long serialVersionUID = 1;
-    private static final int CURRENT_SERIAL_VERSION = 1;
+    private static final int CURRENT_SERIAL_VERSION = 2;
 
     private void writeObject (ObjectOutputStream out) throws IOException {
         out.writeInt (CURRENT_SERIAL_VERSION);
